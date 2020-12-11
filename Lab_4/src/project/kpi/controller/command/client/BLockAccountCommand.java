@@ -1,0 +1,25 @@
+package project.kpi.controller.command.client;
+
+import project.kpi.controller.command.Command;
+import project.kpi.model.dao.entities.Client;
+import project.kpi.model.services.AccountService;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class BLockAccountCommand extends Command {
+    @Override
+    public String execute(HttpServletRequest req, HttpServletResponse res) {
+        if(req.getParameter("block")!=null){
+            AccountService accountService = new AccountService();
+            int account_id = Integer.parseInt(req.getParameter("block"));
+            accountService.setBlocked(account_id,((Client)req.getSession().getAttribute("client")).getClientID(),false);
+        }
+        if(req.getParameter("unblock")!=null){
+            AccountService accountService = new AccountService();
+            int account_id = Integer.parseInt(req.getParameter("unblock"));
+            accountService.setUnblocked(account_id,((Client)req.getSession().getAttribute("client")).getClientID(),false);
+        }
+        return null;
+    }
+}
